@@ -1,15 +1,18 @@
 const express = require('express')
 const app = express()
-const port = 3000
+const port = 8080
 app.use(express.json());
 
 const amqp = require('amqplib')
 var channel, connection;
+
+
 connectQueue() // call connectQueue function
+
+
 async function connectQueue() {
     try {
-
-        connection = await amqp.connect("amqp://localhost:5672");
+        connection = await amqp.connect("amqp://guest:guest@host.docker.internal:5672");
         channel = await connection.createChannel()
 
         // connect to 'test-queue', create one if doesnot exist already

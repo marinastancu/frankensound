@@ -21,7 +21,7 @@ fun Application.configureRouting() {
     routing {
         val client = HttpClient(CIO)
         get("/") {
-            val response: HttpResponse = client.get("http://localhost:3000/")
+            val response: HttpResponse = client.get("http://host.docker.internal:8080/")
             println(response.status)
             call.respondText("Hello World!")
             //client.close()

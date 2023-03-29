@@ -1,0 +1,35 @@
+version: "3.9"
+services:
+  api-gateway:
+    build: ./api-gateway/
+    ports:
+      - "8070:8070"
+    networks:
+      - frankensound_network
+  rabbitmq:
+    image: rabbitmq:3.11-management
+    container_name: rabbitmq
+    ports:
+      - "15672:15672"
+      - "5672:5672"
+    networks:
+      - frankensound_network
+  songs-microservice:
+    build: ./songs-microservice/
+    ports:
+      - "8080:8080"
+    depends_on:
+      - rabbitmq
+    networks:
+      - frankensound_network
+  history-microservice:
+    build: ./history-microservice/
+    ports:
+      - "8090:8090"
+    depends_on:
+      - rabbitmq
+    networks:
+      - frankensound_network
+networks:
+ frankensound_network:
+    driver: bridge
