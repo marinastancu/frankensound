@@ -1,6 +1,7 @@
 package com.frankensound.plugins
 
 import io.ktor.client.*
+import io.ktor.client.call.*
 import io.ktor.client.engine.cio.*
 import io.ktor.server.routing.*
 import io.ktor.server.response.*
@@ -20,12 +21,29 @@ fun Application.configureRouting() {
     }
     routing {
         val client = HttpClient(CIO)
-        get("/") {
-            val response: HttpResponse = client.get("http://host.docker.internal:8080/")
-            println(response.status)
-            call.respondText("Hello World!")
-            //client.close()
+        //Return play link for a song
+        //NOTE: This is to prevent double bandwidth usage with streaming audio
+        get("/play/{id}") {
+            val id = call.parameters["id"]
+            val url = "http://host.docker.internal:8060/songs/"
 
+            if (id != null) {
+                call.response.status(HttpStatusCode.OK)
+                call.respondText(url + id)
+            } else {
+                call.response.status(HttpStatusCode.BadRequest)
+            }
         }
+        //Return history of user
+        get("/profile/history") {
+            val response: HttpResponse = client.get("http://host.docker.internal:8090")
+
+            if (response.status.value in 200..299) {
+                call.response.status(HttpStatusCode.OK)
+            }
+            call.respondText(response.body())
+        }
+        //Return recommendation made for user
+        //TODO
     }
 }

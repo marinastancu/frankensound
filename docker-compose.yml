@@ -17,7 +17,7 @@ services:
   songs-microservice:
     build: ./songs-microservice/
     ports:
-      - "8080:8080"
+      - "8060:8060"
     depends_on:
       - rabbitmq
     networks:
