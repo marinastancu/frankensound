@@ -1,5 +1,6 @@
 import amqp from "amqplib"
 import 'dotenv/config'
+import * as service from "../../services/history.service"
 
 let channel: any, connection: any
 
@@ -15,6 +16,8 @@ export async function connectQueue() {
 
         function consumeData(data:any) {
             console.log("Data received : ", `${Buffer.from(data.content)}`);
+            let content = data.content;
+            service.Create(content);
             channel.ack(data);
         }
 

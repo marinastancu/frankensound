@@ -5,25 +5,35 @@ services:
     ports:
       - "8070:8070"
   rabbitmq:
-    image: rabbitmq:3.11-management
+    build: ./rabbitmq/
     container_name: rabbitmq
+    environment:
+      - RABBITMQ_DEFAULT_USER=guest
+      - RABBITMQ_DEFAULT_PASS=guest
     ports:
       - "15672:15672"
       - "5672:5672"
-  songs-microservice:
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://localhost:15672" ]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+  songs_microservice:
     build: ./songs-microservice/
     ports:
       - "8060:8060"
     depends_on:
-      - rabbitmq
-      - database
-  history-microservice:
+      rabbitmq:
+        condition: service_healthy
+    restart: on-failure
+  history_microservice:
     build: ./history-microservice/
     ports:
       - "8090:8090"
     depends_on:
-      - rabbitmq
-
+      rabbitmq:
+        condition: service_healthy
+    restart: on-failure
   database:
     container_name: postgres
     image: postgres

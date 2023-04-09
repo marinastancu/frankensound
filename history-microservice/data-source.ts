@@ -1,5 +1,5 @@
 import {DataSource} from "typeorm"
-import {SongEntity} from "./src/entities/song.entity.js"
+import {HistoryEntity} from "./src/entities/history.entity.js"
 import "dotenv/config"
 
 export const myDataSource = new DataSource({
@@ -9,7 +9,7 @@ export const myDataSource = new DataSource({
     username: process.env["DB_USER"],
     password: process.env["DB_PASS"],
     database: process.env["DB_NAME"],
-    entities: [SongEntity],
+    entities: [HistoryEntity],
     logging: true,
     synchronize: true,
 })

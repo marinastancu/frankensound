@@ -1,9 +1,9 @@
-import {Song} from "../entities/song.entity.js"
+import {SongEntity} from "../entities/song.entity.js"
 import {myDataSource} from "../../data-source.js";
 
-export function GetSongById(id: any) {
-    myDataSource.getRepository(Song).findOneBy({
-        id: id,
+export function GetSongByTitle(title: any) {
+    myDataSource.getRepository(SongEntity).findOneBy({
+        title: title,
     })
         .then((result: any) => {
             return result;
@@ -17,7 +17,7 @@ export function GetSongById(id: any) {
 }
 
 export function GetSongs() {
-    myDataSource.getRepository(Song).find()
+    myDataSource.getRepository(SongEntity).find()
         .then((result: any) => {
             return result;
         })

@@ -1,7 +1,7 @@
 import { Entity, Column, PrimaryGeneratedColumn } from "typeorm"
 
 @Entity()
-export class Song {
+export class SongEntity {
     @PrimaryGeneratedColumn()
     id: number
 

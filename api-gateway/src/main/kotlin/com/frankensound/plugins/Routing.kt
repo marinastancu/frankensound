@@ -23,13 +23,13 @@ fun Application.configureRouting() {
         val client = HttpClient(CIO)
         //Return play link for a song
         //NOTE: This is to prevent double bandwidth usage with streaming audio
-        get("/play/{id}") {
-            val id = call.parameters["id"]
+        get("/play/{title}") {
+            val title = call.parameters["title"]
             val url = "http://host.docker.internal:8060/songs/"
 
-            if (id != null) {
+            if (title != null) {
                 call.response.status(HttpStatusCode.OK)
-                call.respondText(url + id)
+                call.respondText(url + title)
             } else {
                 call.response.status(HttpStatusCode.BadRequest)
             }
