@@ -1,5 +1,5 @@
 import express = require("express")
-import controller from "../controllers/song.controller"
+import controller from "../controllers/song.controller.js"
 
 const router = express.Router();
 
