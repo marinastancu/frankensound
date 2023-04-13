@@ -8,9 +8,7 @@ COPY package.json package-lock.json ./
 RUN npm install
 # Copy the rest of project files into this image
 COPY . .
-# Generate JS files
-RUN npm run build
 # Expose application port
 EXPOSE 8060
 # Start the application
-CMD [ "node", "dist/server.js" ]
+CMD [ "node", "server.js" ]

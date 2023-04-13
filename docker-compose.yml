@@ -37,7 +37,6 @@ services:
   database:
     container_name: postgres
     image: postgres
-    restart: always
     ports:
       - '5432:${DB_PORT}'
     volumes:
