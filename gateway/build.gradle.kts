@@ -1,10 +1,13 @@
 val ktor_version: String by project
 val kotlin_version: String by project
 val logback_version: String by project
+val aws_version: String by project
+val jansi_version: String by project
 
 plugins {
-    kotlin("jvm") version "1.8.10"
+    kotlin("jvm") version "1.8.20"
     id("io.ktor.plugin") version "2.2.4"
+    id("org.jetbrains.kotlin.plugin.serialization") version "1.8.20"
 }
 
 group = "com.frankensound"
@@ -22,15 +25,21 @@ repositories {
 
 dependencies {
     implementation("io.ktor:ktor-server-core-jvm:$ktor_version")
-    implementation("io.ktor:ktor-server-auth-jvm:$ktor_version")
-    implementation("io.ktor:ktor-server-auth-jwt-jvm:$ktor_version")
-    implementation("io.ktor:ktor-server-auto-head-response-jvm:$ktor_version")
     implementation("io.ktor:ktor-server-host-common-jvm:$ktor_version")
     implementation("io.ktor:ktor-server-status-pages-jvm:$ktor_version")
+    implementation("io.ktor:ktor-server-openapi:$ktor_version")
+    implementation("io.ktor:ktor-server-call-logging-jvm:$ktor_version")
+    implementation("io.ktor:ktor-server-metrics-jvm:$ktor_version")
+    implementation("io.ktor:ktor-server-content-negotiation-jvm:$ktor_version")
+    implementation("io.ktor:ktor-serialization-kotlinx-json-jvm:$ktor_version")
     implementation("io.ktor:ktor-server-netty-jvm:$ktor_version")
-    implementation("ch.qos.logback:logback-classic:$logback_version")
     testImplementation("io.ktor:ktor-server-tests-jvm:$ktor_version")
     testImplementation("org.jetbrains.kotlin:kotlin-test-junit:$kotlin_version")
+    implementation("aws.sdk.kotlin:s3:$aws_version")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.4.3")
+    runtimeOnly("ch.qos.logback:logback-classic:$logback_version")
+    runtimeOnly("org.fusesource.jansi:jansi:$jansi_version")
+    implementation("io.github.oshai:kotlin-logging-jvm:4.0.0-beta-27")
     implementation("io.ktor:ktor-client-core:$ktor_version")
     implementation("io.ktor:ktor-client-cio:$ktor_version")
 }

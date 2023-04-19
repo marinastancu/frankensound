@@ -6,11 +6,13 @@ import io.ktor.server.netty.*
 import com.frankensound.plugins.*
 
 fun main() {
-    embeddedServer(Netty, port = 8070, module = Application::module)
+    embeddedServer(Netty, port = 8080, module = Application::module)
         .start(wait = true)
 }
 
 fun Application.module() {
-    configureSecurity()
+    configureHTTP()
+    configureMonitoring()
+    configureSerialization()
     configureRouting()
 }
