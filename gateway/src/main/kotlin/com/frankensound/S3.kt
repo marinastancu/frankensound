@@ -1,26 +1,26 @@
 package com.frankensound
 
 import aws.sdk.kotlin.services.s3.S3Client
-import aws.sdk.kotlin.services.s3.headObject
 import aws.sdk.kotlin.services.s3.model.GetObjectRequest
 import aws.sdk.kotlin.services.s3.model.ListObjectsRequest
 import aws.smithy.kotlin.runtime.content.toByteArray
-import aws.smithy.kotlin.runtime.content.writeToFile
-import java.io.File
 
 val client = S3Client { region = "eu-north-1" }
 
-suspend fun getObject(bucketName: String, keyName: String, path: String): ByteArray? {
+suspend fun getObject(bucketName: String, keyName: String, rangeValue: String?): ResponseS3? {
     val request = GetObjectRequest {
         key = keyName
         bucket = bucketName
+        range = rangeValue
     }
 
-    val stream = client.getObject(request) { resp ->
-        resp.body?.toByteArray()
+    return client.getObject(request) { resp ->
+        if (resp.body == null) {
+            null
+        } else {
+            ResponseS3(resp.body!!.toByteArray(), resp.contentRange, resp.acceptRanges, resp.body!!.contentLength)
+        }
     }
-
-    return stream
 }
 
 suspend fun listBucketObs(bucketName: String): ArrayList<String> {
@@ -34,3 +34,10 @@ suspend fun listBucketObs(bucketName: String): ArrayList<String> {
     }
     return list
 }
+
+data class ResponseS3(
+    val data: ByteArray,
+    val contentRange: String?,
+    val acceptRanges: String?,
+    val contentLength: Long?,
+)
