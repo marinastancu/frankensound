@@ -8,5 +8,3 @@
 #Ignore generated folders
 node_modules
 .idea
-.gradle
-build

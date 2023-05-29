@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: configmap
+data:
+  songs_microservice_url: songs-service
+  history_microservice_url: history-service

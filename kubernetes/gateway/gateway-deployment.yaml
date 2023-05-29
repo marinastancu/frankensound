@@ -1,0 +1,52 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: gateway
+  namespace: production
+  labels:
+    app: gateway
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: gateway
+  template:
+    metadata:
+      labels:
+        app: gateway
+    spec:
+      containers:
+        - name: gateway
+          image: marinastancu/frankensound-gateway:v1.0
+          ports:
+            - containerPort: 3000
+          env:
+            - name: AWS_ACCESS_KEY_ID
+              valueFrom:
+                secretKeyRef:
+                  name: gateway-secret
+                  key: aws-access-key
+            - name: AWS_SECRET_ACCESS_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: gateway-secret
+                  key: aws-secret-key
+            - name: SONGS_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: configmap
+                  key: songs_url
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: gateway
+  namespace: production
+spec:
+  selector:
+    app: gateway
+  ports:
+    - protocol: TCP
+      port: 3000
+      targetPort: 3000
+      nodePort: 30000

@@ -56,8 +56,11 @@ fun Application.configureRouting() {
             }
             val range = header.substringAfter("=").split("-").ifEmpty { null } ?: return@get call.respond(HttpStatusCode.BadRequest)
             val start = range.getOrNull(0)?.ifBlank { null }?.toIntOrNull() ?: return@get call.respond(HttpStatusCode.BadRequest)
-            val end = range.getOrNull(1)?.ifBlank { null } ?: (start + 500000)
+            val end = range.getOrNull(1)?.ifBlank { null }?.toIntOrNull() ?: (start + 500000)
 
+            if(end < start){
+                return@get call.respond(HttpStatusCode.BadRequest)
+            }
             val rangeVal = "$unit=$start-$end"
 
             val responseS3: ResponseS3 = getObject(bucketName, key, rangeVal) ?: return@get call.respond(HttpStatusCode.NotFound)

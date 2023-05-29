@@ -1,0 +1,52 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: history
+  namespace: production
+  labels:
+    app: history
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: history
+  template:
+    metadata:
+      labels:
+        app: history
+    spec:
+      containers:
+        - name: history
+          image: marinastancu/frankensound-history:v1.0
+          ports:
+            - containerPort: 3000
+          env:
+            - name: USER_NAME
+              valueFrom:
+                secretKeyRef:
+                  name: mongo-secret
+                  key: mongo-user
+            - name: USER_PWD
+              valueFrom:
+                secretKeyRef:
+                  name: mongo-secret
+                  key: mongo-user
+            - name: DB_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: mongo-config
+                  key: mongo-url
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: history
+  namespace: production
+spec:
+  selector:
+    app: history
+  ports:
+    - protocol: TCP
+      port: 3000
+      targetPort: 3000
+      nodePort: 30000

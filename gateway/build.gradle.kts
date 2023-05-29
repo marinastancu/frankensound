@@ -13,7 +13,7 @@ plugins {
 group = "com.frankensound"
 version = "0.0.1"
 application {
-    mainClass.set("com.frankensound.ApplicationKt")
+    mainClass.set("com.frankensound.MainKt")
 
     val isDevelopment: Boolean = project.ext.has("development")
     applicationDefaultJvmArgs = listOf("-Dio.ktor.development=$isDevelopment")

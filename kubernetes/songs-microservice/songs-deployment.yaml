@@ -1,0 +1,51 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: songs
+  namespace: production
+  labels:
+    app: songs
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: songs
+  template:
+    metadata:
+      labels:
+        app: songs
+    spec:
+      containers:
+        - name: songs
+          image: marinastancu/frankensound-songs:v1.0
+          ports:
+            - containerPort: 3000
+          env:
+            - name: USER_NAME
+              valueFrom:
+                secretKeyRef:
+                  name: mongo-secret
+                  key: mongo-user
+            - name: USER_PWD
+              valueFrom:
+                secretKeyRef:
+                  name: mongo-secret
+                  key: mongo-user
+            - name: DB_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: mongo-config
+                  key: mongo-url
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: songs
+  namespace: production
+spec:
+  selector:
+    app: songs
+  ports:
+    - protocol: TCP
+      port: 3000
+      targetPort: 3000
