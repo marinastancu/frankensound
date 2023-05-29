@@ -63,7 +63,7 @@ jobs:
           context: ./gateway
           file: ./gateway/Dockerfile
           push: true
-          tags: user/app:latest
+          tags: ${{ secrets.DOCKER_USERNAME }}/frankensound:latest
       
   deploy:
     needs: [test, publish]
