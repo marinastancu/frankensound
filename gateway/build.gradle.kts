@@ -8,6 +8,7 @@ plugins {
     kotlin("jvm")
     id("io.ktor.plugin")
     id("org.jetbrains.kotlin.plugin.serialization")
+    id("io.snyk.gradle.plugin.snykplugin") version "0.4"
 }
 
 group = "com.frankensound"

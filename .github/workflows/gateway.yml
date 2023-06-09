@@ -28,11 +28,9 @@ jobs:
         restore-keys: |
             ${{ runner.os }}-gradle-
     - name: Run Snyk to check for vulnerabilities
-      uses: snyk/actions/gradle@master
-      with:
-        args: --all-sub-projects
+      run: ./gradlew gateway:snyk-test
       env:
-          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+        SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
         
   test:
     runs-on: ubuntu-latest
