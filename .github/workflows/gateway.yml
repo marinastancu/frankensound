@@ -31,17 +31,6 @@ jobs:
         key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle.kts') }}
         restore-keys: |
             ${{ runner.os }}-gradle-
-
-  security:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Run Snyk to check Docker images for vulnerabilities
-        uses: snyk/actions/docker@master
-        env:
-          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
-        with:
-          image: ${{ secrets.DOCKER_USERNAME }}/frankensound
-          args: --severity-threshold=high
         
   test:
     runs-on: ubuntu-latest
@@ -68,6 +57,14 @@ jobs:
           key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle') }}
           restore-keys: |
             ${{ runner.os }}-gradle-
+      - name: Run Snyk to check Docker images for vulnerabilities
+        uses: snyk/actions/docker@master
+        env:
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+        with:
+          image: ${{ secrets.DOCKER_USERNAME }}/frankensound
+          args: --severity-threshold=high
+                --run-quality-checks=true  
       - name: Build and push
         uses: docker/build-push-action@v4
         with:
