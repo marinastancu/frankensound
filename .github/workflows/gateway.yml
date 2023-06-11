@@ -76,7 +76,7 @@ jobs:
       env:
         SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
       with:
-        image: ${{ secrets.DOCKER_USERNAME }}/frankensound:latest
+        image: marinastancu/frankensound
         args: --file=./gateway/Dockerfile
               --severity-threshold=high
               --run-quality-checks=true  
