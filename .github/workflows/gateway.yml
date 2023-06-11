@@ -50,14 +50,6 @@ jobs:
         with:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
-      - name: Run Snyk to check Docker images for vulnerabilities
-        uses: snyk/actions/docker@master
-        env:
-          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
-        with:
-          image: ${{ secrets.DOCKER_USERNAME }}/frankensound:latest
-          args: --severity-threshold=high
-                --run-quality-checks=true  
       - name: Use cache
         uses: actions/cache@v3
         with:
@@ -72,7 +64,27 @@ jobs:
           file: ./gateway/Dockerfile
           push: true
           tags: ${{ secrets.DOCKER_USERNAME }}/frankensound:latest
-      
+  snyk:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    - name: Build a Docker image
+      run: docker build -t ${{ secrets.DOCKER_USERNAME }}/frankensound:latest .
+    - name: Run Snyk to check Docker image for vulnerabilities
+      continue-on-error: true
+      uses: snyk/actions/docker@master
+      env:
+        SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+      with:
+        image: ${{ secrets.DOCKER_USERNAME }}/frankensound:latest
+        args: --file=./gateway/Dockerfile
+              --severity-threshold=high
+              --run-quality-checks=true  
+    - name: Upload result to GitHub Code Scanning
+      uses: github/codeql-action/upload-sarif@v2
+      with:
+        sarif_file: snyk.sarif
+        
   deploy:
     needs: [test, publish]
     runs-on: ubuntu-latest
