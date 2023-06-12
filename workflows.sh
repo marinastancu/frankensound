@@ -9,5 +9,6 @@ for MICROSERVICE in $(ls microservices); do
     WORKFLOW=$(echo "${TEMPLATE}" | sed "s/{{MICROSERVICE}}/${MICROSERVICE}/g")
 
     # save workflow to .github/workflows/{MICROSERVICE}
-    echo "${WORKFLOW}" > .github/workflows/${MICROSERVICE}.yaml
+    cd ./.github/workflows/
+    echo "${WORKFLOW}" > ${MICROSERVICE}.yml
 done
