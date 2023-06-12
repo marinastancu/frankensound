@@ -19,7 +19,7 @@ services:
       timeout: 10s
       retries: 5
   songs_microservice:
-    build: ./songs-microservice/
+    build: microservices/songs-microservice/
     ports:
       - "8060:8060"
     depends_on:
