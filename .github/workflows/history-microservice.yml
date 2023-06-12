@@ -4,7 +4,7 @@ on:
   push:
     paths:
       - "microservices/history-microservice/**"
-      - ".github/workflows/history-microservice.yaml"
+      - ".github/workflows/history-microservice.yml"
       - "workflows.sh"
 
 jobs:

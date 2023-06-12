@@ -4,7 +4,7 @@ on:
   push:
     paths:
       - "microservices/songs-microservice/**"
-      - ".github/workflows/songs-microservice.yaml"
+      - ".github/workflows/songs-microservice.yml"
       - "workflows.sh"
 
 jobs:
