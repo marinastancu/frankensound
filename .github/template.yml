@@ -1,4 +1,4 @@
-name: "{{MICROSERVICE}}"
+name: "{{MICROSERVICE}} CI/CD"
 
 on:
   push:
