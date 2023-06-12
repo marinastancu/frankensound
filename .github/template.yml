@@ -5,6 +5,7 @@ on:
     paths:
       - "microservices/{{MICROSERVICE}}/**"
       - ".github/workflows/{{MICROSERVICE}}.yaml"
+      - "workflows.sh"
 
 jobs:
   build:

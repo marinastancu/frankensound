@@ -5,6 +5,7 @@ on:
     paths:
       - "microservices/history-microservice/**"
       - ".github/workflows/history-microservice.yaml"
+      - "workflows.sh"
 
 jobs:
   build:

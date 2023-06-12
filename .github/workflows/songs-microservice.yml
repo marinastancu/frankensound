@@ -5,6 +5,7 @@ on:
     paths:
       - "microservices/songs-microservice/**"
       - ".github/workflows/songs-microservice.yaml"
+      - "workflows.sh"
 
 jobs:
   build:
