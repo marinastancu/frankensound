@@ -3,7 +3,7 @@ name: "{{MICROSERVICE}}"
 on:
   push:
     paths:
-      - "{{MICROSERVICE}}/**"
+      - "microservices/{{MICROSERVICE}}/**"
       - ".github/workflows/{{MICROSERVICE}}.yaml"
 
 jobs:
@@ -58,8 +58,8 @@ jobs:
       - name: Build and push
         uses: docker/build-push-action@v4
         with:
-          context: ./{{MICROSERVICE}}
-          file: ./{{MICROSERVICE}}/Dockerfile
+          context: ./microservices/{{MICROSERVICE}}
+          file: ./microservices/{{MICROSERVICE}}/Dockerfile
           push: true
           tags: ${{ secrets.DOCKER_USERNAME }}/{{MICROSERVICE}}:latest
 
@@ -85,7 +85,7 @@ jobs:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
         with:
           image: ${{ secrets.DOCKER_USERNAME }}/{{MICROSERVICE}}:latest
-          args: --fileS./{{MICROSERVICE}}/Dockerfile
+          args: --fileS./microservices/{{MICROSERVICE}}/Dockerfile
             --severity-threshold=high
             --run-quality-checks=true
       - name: Upload result to GitHub Code Scanning

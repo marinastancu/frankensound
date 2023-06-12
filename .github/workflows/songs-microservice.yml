@@ -3,7 +3,7 @@ name: "songs-microservice"
 on:
   push:
     paths:
-      - "songs-microservice/**"
+      - "microservices/songs-microservice/**"
       - ".github/workflows/songs-microservice.yaml"
 
 jobs:
@@ -58,8 +58,8 @@ jobs:
       - name: Build and push
         uses: docker/build-push-action@v4
         with:
-          context: ./songs-microservice
-          file: ./songs-microservice/Dockerfile
+          context: ./microservices/songs-microservice
+          file: ./microservices/songs-microservice/Dockerfile
           push: true
           tags: ${{ secrets.DOCKER_USERNAME }}/songs-microservice:latest
 
@@ -85,7 +85,7 @@ jobs:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
         with:
           image: ${{ secrets.DOCKER_USERNAME }}/songs-microservice:latest
-          args: --fileS./songs-microservice/Dockerfile
+          args: --fileS./microservices/songs-microservice/Dockerfile
             --severity-threshold=high
             --run-quality-checks=true
       - name: Upload result to GitHub Code Scanning

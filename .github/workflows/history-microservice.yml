@@ -3,7 +3,7 @@ name: "history-microservice"
 on:
   push:
     paths:
-      - "history-microservice/**"
+      - "microservices/history-microservice/**"
       - ".github/workflows/history-microservice.yaml"
 
 jobs:
@@ -58,8 +58,8 @@ jobs:
       - name: Build and push
         uses: docker/build-push-action@v4
         with:
-          context: ./history-microservice
-          file: ./history-microservice/Dockerfile
+          context: ./microservices/history-microservice
+          file: ./microservices/history-microservice/Dockerfile
           push: true
           tags: ${{ secrets.DOCKER_USERNAME }}/history-microservice:latest
 
@@ -85,7 +85,7 @@ jobs:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
         with:
           image: ${{ secrets.DOCKER_USERNAME }}/history-microservice:latest
-          args: --fileS./history-microservice/Dockerfile
+          args: --fileS./microservices/history-microservice/Dockerfile
             --severity-threshold=high
             --run-quality-checks=true
       - name: Upload result to GitHub Code Scanning
