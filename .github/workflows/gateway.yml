@@ -76,7 +76,8 @@ jobs:
         SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
       with:
         image: marinastancu/frankensound:latest
-        args: --severity-threshold=high
+        args: --file=./gateway/Dockerfile
+              --severity-threshold=high
               --run-quality-checks=true  
     - name: Upload result to GitHub Code Scanning
       uses: github/codeql-action/upload-sarif@v2
