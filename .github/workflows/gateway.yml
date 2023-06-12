@@ -27,17 +27,20 @@ jobs:
         key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle.kts') }}
         restore-keys: |
             ${{ runner.os }}-gradle-
-    - name: Run Snyk to check for vulnerabilities
-      run: ./gradlew gateway:snyk-test
-      env:
-        SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
         
-  synk-static-code:
+  snyk-static-code:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
+      - name: Set up JDK
+        uses: actions/setup-java@v3
+        with:
+          java-version: '19'
+          distribution: 'corretto'
+      - name: Build with Gradle
+        run: ./gradlew gateway:build
       - name: Run Snyk to check for vulnerabilities
-        uses: snyk/actions/gradle@master
+        run: ./gradlew gateway:snyk-test
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
         
