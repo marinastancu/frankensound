@@ -1,4 +1,4 @@
-name: "history-microservice CI/CD"
+name: "History microservice CI/CD"
 
 on:
   push:
