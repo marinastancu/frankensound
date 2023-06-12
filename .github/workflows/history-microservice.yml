@@ -1,4 +1,4 @@
-name: "History microservice CI/CD"
+name: "history-microservice CI/CD"
 
 on:
   push:
@@ -86,7 +86,7 @@ jobs:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
         with:
           image: ${{ secrets.DOCKER_USERNAME }}/history-microservice:latest
-          args: --fileS./microservices/history-microservice/Dockerfile
+          args: --file=./microservices/history-microservice/Dockerfile
             --severity-threshold=high
             --run-quality-checks=true
       - name: Upload result to GitHub Code Scanning
@@ -96,6 +96,8 @@ jobs:
 
   snyk-static-code:
     runs-on: ubuntu-latest
+    permissions:
+      security-events: write
     steps:
       - uses: actions/checkout@v3
       - name: Run Snyk to check for vulnerabilities
